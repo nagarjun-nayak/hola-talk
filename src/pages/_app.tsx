@@ -2,8 +2,7 @@ import { type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 
-import { api } from "~/utils/api";
-
+import { api } from "../styles/utils/api";
 import "~/styles/globals.css";
 import "@livekit/components-styles";
 import "@livekit/components-styles/prefabs";

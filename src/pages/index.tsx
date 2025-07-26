@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import Typing from "~/components/animation/typing";
 import Navbar from "~/components/navbar";
-import { api } from "~/utils/api";
+import { api } from "../styles/utils/api";
 import { AiOutlineVideoCameraAdd } from "react-icons/ai";
 import JoinRoom from "~/components/join";
 import Image from "next/image";

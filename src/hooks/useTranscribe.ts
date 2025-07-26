@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import { api } from "~/utils/api";
+import { api } from "../styles/utils/api";
 
 type UseTranscribeProps = {
   roomName: string;

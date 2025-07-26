@@ -5,8 +5,7 @@ import Footer from "~/components/footer";
 import Loader from "~/components/loader";
 import Navbar from "~/components/navbar";
 import SplashScreen from "~/components/splashScreen";
-import { api } from "~/utils/api";
-
+import { api } from "../styles/utils/api";
 function profile() {
   const { data: session, status } = useSession();
   const { data: rooms, isLoading, error } = api.rooms.getRoomsByUser.useQuery();

@@ -139,8 +139,8 @@
 
 //mz
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import speakOut from "~/utils/speak";
-import { setCORS, languages } from "~/utils/marianMT";
+import speakOut from "../../styles/utils/speak";
+import { setCORS, languages } from "../../styles/utils/marianMT";
 
 // Initialize the translation function
 const translate = setCORS();
