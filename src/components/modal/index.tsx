@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, type FunctionComponent } from "react";
-import { api } from "~/utils/api";
+import { api } from "../../styles/utils/api";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import Loader from "../loader";
