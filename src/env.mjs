@@ -22,7 +22,7 @@ const server = z.object({
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
   // MarianMT Translation API
-  MARIAN_MT_API_ENDPOINT: z.string().url(),
+  MARIAN_MT_API_ENDPOINT: z.string().url().optional(),
   MARIAN_MT_API_KEY: z.string().optional(),
   MARIAN_MT_MAX_LENGTH: z.string().optional(),
   MARIAN_MT_BATCH_SIZE: z.string().optional(),
