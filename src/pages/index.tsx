@@ -3,19 +3,19 @@ import type { NextPage } from "next";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React from "react";
-import Typing from "~/components/animation/typing";
-import Navbar from "~/components/navbar";
+import Typing from "../components/animation/typing";
+import Navbar from "../components/navbar";
 import { api } from "../styles/utils/api";
 import { AiOutlineVideoCameraAdd } from "react-icons/ai";
-import JoinRoom from "~/components/join";
+import JoinRoom from "../components/join";
 import Image from "next/image";
-import Features from "~/components/features";
-import CharacterAnimation from "~/components/animation/character";
+import Features from "../components/features";
+import CharacterAnimation from "../components/animation/character";
 import { useRive, Layout, Fit, Alignment } from "@rive-app/react-canvas";
-import TextAnimation from "~/components/animation/text";
-import Loader from "~/components/loader";
-import Footer from "~/components/footer";
-import SplashScreen from "~/components/splashScreen";
+import TextAnimation from "../components/animation/text";
+import Loader from "../components/loader";
+import Footer from "../components/footer";
+import SplashScreen from "../components/splashScreen";
 
 function ConnectionTab() {
   const { data: session, status } = useSession();

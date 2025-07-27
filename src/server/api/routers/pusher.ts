@@ -62,7 +62,7 @@ import {
   createTRPCRouter,
   publicProcedure,
   protectedProcedure,
-} from "~/server/api/trpc";
+} from "../../../server/api/trpc";
 import { translate } from "../../../styles/utils/marianMT";
 export const pusherRouter = createTRPCRouter({
   send: protectedProcedure

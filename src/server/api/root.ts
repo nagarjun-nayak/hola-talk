@@ -1,4 +1,4 @@
-import { createTRPCRouter } from "~/server/api/trpc";
+import { createTRPCRouter } from "./trpc";
 import { roomsRouter } from "./routers/rooms";
 import { pusherRouter } from "./routers/pusher";
 

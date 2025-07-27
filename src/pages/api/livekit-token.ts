@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { AccessToken, VideoGrant } from "livekit-server-sdk";
-import { getLiveKitWsUrl, getLiveKitCredentials } from "~/lib/livekit-config";
-
+import { getLiveKitWsUrl, getLiveKitCredentials } from "../../lib/livekit-config";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse

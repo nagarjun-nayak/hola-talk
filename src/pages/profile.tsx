@@ -1,10 +1,10 @@
 import { signIn, useSession } from "next-auth/react";
-import TextAnimation from "~/components/animation/text";
-import Card from "~/components/card";
-import Footer from "~/components/footer";
-import Loader from "~/components/loader";
-import Navbar from "~/components/navbar";
-import SplashScreen from "~/components/splashScreen";
+import TextAnimation from "../components/animation/text";
+import Card from "../components/card";
+import Footer from "../components/footer";
+import Loader from "../components/loader";
+import Navbar from "../components/navbar";
+import SplashScreen from "../components/splashScreen";
 import { api } from "../styles/utils/api";
 function profile() {
   const { data: session, status } = useSession();

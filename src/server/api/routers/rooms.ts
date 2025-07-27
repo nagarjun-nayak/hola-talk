@@ -6,7 +6,7 @@ import type {
   CreateOptions,
 } from "livekit-server-sdk";
 import { translate } from "@vitalets/google-translate-api";
-import { getRoomClient, getLiveKitURL } from "~/lib/serverUtils";
+import { getRoomClient, getLiveKitURL } from "../../../lib/serverUtils";
 import axios from "axios";
 
 // Use environment variables for LiveKit configuration
@@ -44,12 +44,9 @@ const createToken = (userInfo: AccessTokenOptions, grant: VideoGrant) => {
 };
 
 // Import other required dependencies
-import {
-  createTRPCRouter,
-  publicProcedure,
-  protectedProcedure,
-} from "~/server/api/trpc";
-import { TokenResult } from "~/lib/type";
+import { createTRPCRouter, publicProcedure, protectedProcedure, } from "../../../server/api/trpc";
+
+import { TokenResult } from "../../../lib/type";
 import { CreateRoomRequest } from "livekit-server-sdk/dist/proto/livekit_room";
 
 // OpenAI configuration

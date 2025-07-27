@@ -4,8 +4,8 @@ import {
 } from "@livekit/components-react";
 import React, { useEffect, useState } from "react";
 import { Room, RoomEvent } from "livekit-client";
-import { getDirectToken, connectToRoom } from "~/lib/direct-livekit";
-import { DebugMode } from "~/lib/Debug";
+import { getDirectToken, connectToRoom } from "../lib/direct-livekit";
+import { DebugMode } from "../lib/Debug";
 
 interface LiveKitProviderProps {
   identity: string;
