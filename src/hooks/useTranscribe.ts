@@ -91,6 +91,7 @@ const useTranscribe = ({
 
   const pusherMutation = api.pusher.send.useMutation();
 
+  // This effect sends the final transcript to other users.
   useEffect(() => {
     if (finalTranscript !== "") {
       pusherMutation.mutate({
@@ -103,30 +104,32 @@ const useTranscribe = ({
     }
   }, [finalTranscript, transcript, roomName, pusherMutation, resetTranscript, languageCode]);
 
-  // --- This is the corrected section ---
+  // This effect controls the microphone listening.
   useEffect(() => {
     if (!browserSupportsSpeechRecognition) {
       console.error("Browser does not support speech recognition.");
       return;
     }
 
-    // Always stop listening before starting again to apply new settings.
+    // --- Start of The Fix ---
+    // This is the crucial line. It ensures that every time the user's
+    // microphone or language setting changes, we start with a clean slate.
     SpeechRecognition.stopListening();
 
     if (audioEnabled) {
-      // Start listening directly without the problematic delay.
+      // If the user's audio is on, start listening.
       SpeechRecognition.startListening({
         continuous: true,
         language: languageCode,
       });
     }
+    // --- End of The Fix ---
 
-    // The cleanup function will run when the component unmounts.
+    // This is a cleanup function: it will stop listening if the component is removed.
     return () => {
       SpeechRecognition.stopListening();
     };
   }, [audioEnabled, languageCode, browserSupportsSpeechRecognition]);
-  // --- End of corrected section ---
 
   return null;
 };
