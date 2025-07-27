@@ -6,17 +6,27 @@ import Loader from "../components/loader";
 import Navbar from "../components/navbar";
 import SplashScreen from "../components/splashScreen";
 import { api } from "../styles/utils/api";
-function profile() {
+
+// Define the type for a single room object
+type RoomType = {
+  name: string;
+  slug: string | null;
+  createdAt: Date;
+  OwnerId: string;
+};
+
+function Profile() {
   const { data: session, status } = useSession();
   const { data: rooms, isLoading, error } = api.rooms.getRoomsByUser.useQuery();
 
   if (status === "loading") return <SplashScreen />;
   if (!session && status === "unauthenticated") return signIn("google");
 
+  // Use the RoomType to fix the 'any' type error in .filter()
   const ownedRooms =
-    rooms?.filter((room) => room.OwnerId === session?.user.id) || [];
+    rooms?.filter((room: RoomType) => room.OwnerId === session?.user.id) || [];
   const joinedRooms =
-    rooms?.filter((room) => room.OwnerId !== session?.user.id) || [];
+    rooms?.filter((room: RoomType) => room.OwnerId !== session?.user.id) || [];
 
   return (
     <>
@@ -40,9 +50,11 @@ function profile() {
             </p>
           )}
           <div className="flex flex-row flex-wrap items-center justify-center">
-            {ownedRooms.map((room) => {
+            {/* --- Start of The Fix --- */}
+            {ownedRooms.map((room: RoomType) => {
               return <Card room={room} key={room.name} />;
             })}
+            {/* --- End of The Fix --- */}
           </div>
         </div>
 
@@ -58,9 +70,11 @@ function profile() {
             </p>
           )}
           <div className="flex flex-row flex-wrap items-center justify-center">
-            {joinedRooms.map((room) => {
+            {/* --- Start of The Fix --- */}
+            {joinedRooms.map((room: RoomType) => {
               return <Card room={room} key={room.name} />;
             })}
+            {/* --- End of The Fix --- */}
           </div>
         </div>
       </div>
@@ -69,4 +83,4 @@ function profile() {
   );
 }
 
-export default profile;
+export default Profile;

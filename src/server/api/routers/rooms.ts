@@ -247,7 +247,7 @@ export const roomsRouter = createTRPCRouter({
           createdAt: "asc",
         },
       });
-      const chatLog = transcripts.map((transcript) => ({
+      const chatLog = transcripts.map((transcript: { User: { name: string | null }; text: string; createdAt: Date }) => ({
         speaker: transcript.User.name,
         utterance: transcript.text,
         timestamp: transcript.createdAt.toISOString(),
