@@ -1,4 +1,3 @@
-//mz
 import { useEffect } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
@@ -31,30 +30,41 @@ const useTranscribe = ({
         message: transcript,
         roomName: roomName,
         isFinal: true,
-        sourceLang: languageCode, // Change 1: Add the source language code
+        sourceLang: languageCode,
       });
       resetTranscript();
     }
-    // Change 2: Add languageCode and other dependencies to ensure the hook updates correctly
   }, [finalTranscript, transcript, roomName, pusherMutation, resetTranscript, languageCode]);
 
   useEffect(() => {
     if (!browserSupportsSpeechRecognition) {
-        console.error("Browser does not support speech recognition.");
-        return;
-    }
-    SpeechRecognition.stopListening();//mz
-    if (audioEnabled) {
-      SpeechRecognition.startListening({
-        continuous: true,
-        language: languageCode,
-      });
+      console.error("Browser does not support speech recognition.");
+      return;
     }
 
-    // Cleanup function to stop listening when the component unmounts or audio is disabled
-    return () => {
+    SpeechRecognition.stopListening();
+
+    if (audioEnabled) {
+      // --- Start of The Fix ---
+      // We introduce a small delay to prevent a race condition on mobile
+      // where LiveKit and Speech Recognition fight for the microphone.
+      const startListeningWithDelay = () => {
+        SpeechRecognition.startListening({
+          continuous: true,
+          language: languageCode,
+        });
+      };
+      
+      const timer = setTimeout(startListeningWithDelay, 700); // 700ms delay
+
+      // Cleanup function to clear the timer if the component unmounts
+      return () => {
+        clearTimeout(timer);
         SpeechRecognition.stopListening();
-    };
+      };
+      // --- End of The Fix ---
+    }
+    
   }, [audioEnabled, languageCode, browserSupportsSpeechRecognition]);
 
   return null;
