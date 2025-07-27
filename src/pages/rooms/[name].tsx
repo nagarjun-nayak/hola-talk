@@ -275,6 +275,8 @@
 
 //mz
 
+//mz
+
 import {
   LiveKitRoom,
   PreJoin,
@@ -412,7 +414,6 @@ const ActiveRoom = ({
         deviceId: userChoices.videoDeviceId ?? undefined,
         resolution: hq === "true" ? VideoPresets.h2160 : VideoPresets.h720,
       },
-      // --- 2. THE INCORRECT LINE HAS BEEN REMOVED FROM HERE ---
       publishDefaults: {
         videoSimulcastLayers:
           hq === "true"
@@ -488,10 +489,10 @@ const ActiveRoom = ({
           serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
           options={roomOptions}
           video={userChoices.videoEnabled}
-          audio={true} // <-- 3. THIS IS NOW ALWAYS TRUE
+          audio={true} // <-- 2. THIS IS ALWAYS TRUE
           onDisconnected={onLeave}
         >
-          {/* --- 4. THIS NEW COMPONENT IS ADDED --- */}
+          {/* --- 3. THIS NEW COMPONENT IS ADDED --- */}
           <SetInitialMicrophoneState audioEnabled={userChoices.audioEnabled} />
 
           <div
@@ -523,18 +524,18 @@ const ActiveRoom = ({
   );
 };
 
-// --- 5. THIS NEW HELPER COMPONENT HAS BEEN ADDED ---
+// --- 4. THIS NEW HELPER COMPONENT HAS BEEN ADDED ---
 function SetInitialMicrophoneState({ audioEnabled }: { audioEnabled: boolean }) {
   const { localParticipant } = useLocalParticipant();
 
   useEffect(() => {
+    // This effect waits for the user to connect, then sets the mic state
     if (localParticipant && localParticipant.isMicrophoneEnabled !== audioEnabled) {
-      console.log(`Setting initial microphone state to: ${audioEnabled}`);
       localParticipant.setMicrophoneEnabled(audioEnabled);
     }
   }, [localParticipant, audioEnabled]);
 
-  return null; // This component does not render anything.
+  return null; // This component doesn't render any visible UI
 }
 
 export default Home;
