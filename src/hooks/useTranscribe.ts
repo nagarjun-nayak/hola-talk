@@ -1,5 +1,5 @@
 
-//mz
+
 // import { useEffect } from "react";
 // import SpeechRecognition, {
 //   useSpeechRecognition,
@@ -46,30 +46,43 @@
 //       return;
 //     }
 
-//     // --- Start of The Fix ---
-//     // This is the crucial line. It ensures that every time the user's
-//     // microphone or language setting changes, we start with a clean slate.
-//     SpeechRecognition.stopListening();
-
 //     if (audioEnabled) {
-//       // If the user's audio is on, start listening.
-//       SpeechRecognition.startListening({
-//         continuous: true,
-//         language: languageCode,
-//       });
-//     }
-//     // --- End of The Fix ---
+//       // --- Start of The Fix ---
+//       // We use a timeout to delay the start of listening. This helps prevent
+//       // a race condition where LiveKit and the Web Speech API fight for
+//       // microphone access, which is common for guest users.
+//       const timerId = setTimeout(() => {
+//         console.log(`Starting speech recognition for language: ${languageCode}`);
+//         SpeechRecognition.startListening({
+//           continuous: true,
+//           language: languageCode,
+//         });
+//       }, 700); // A 700ms delay is usually enough.
 
-//     // This is a cleanup function: it will stop listening if the component is removed.
-//     return () => {
+//       // The cleanup function is crucial. It runs if the user turns off their mic
+//       // or leaves the call. It prevents the delayed function from running.
+//       return () => {
+//         clearTimeout(timerId);
+//         SpeechRecognition.stopListening();
+//         console.log("Stopped speech recognition.");
+//       };
+//       // --- End of The Fix ---
+
+//     } else {
+//       // If audio is not enabled, make sure we are not listening.
 //       SpeechRecognition.stopListening();
-//     };
+//     }
 //   }, [audioEnabled, languageCode, browserSupportsSpeechRecognition]);
 
 //   return null;
 // };
 
 // export default useTranscribe;
+
+
+
+
+// src/hooks/useTranscribe.ts
 
 import { useEffect } from "react";
 import SpeechRecognition, {
@@ -104,7 +117,10 @@ const useTranscribe = ({
         message: transcript,
         roomName: roomName,
         isFinal: true,
-        sourceLang: languageCode,
+        // --- START OF THE FIX ---
+        // Provide a default language ('en-US') if languageCode is not available.
+        sourceLang: languageCode || "en-US",
+        // --- END OF THE FIX ---
       });
       resetTranscript();
     }
@@ -118,29 +134,21 @@ const useTranscribe = ({
     }
 
     if (audioEnabled) {
-      // --- Start of The Fix ---
-      // We use a timeout to delay the start of listening. This helps prevent
-      // a race condition where LiveKit and the Web Speech API fight for
-      // microphone access, which is common for guest users.
       const timerId = setTimeout(() => {
         console.log(`Starting speech recognition for language: ${languageCode}`);
         SpeechRecognition.startListening({
           continuous: true,
           language: languageCode,
         });
-      }, 700); // A 700ms delay is usually enough.
+      }, 700);
 
-      // The cleanup function is crucial. It runs if the user turns off their mic
-      // or leaves the call. It prevents the delayed function from running.
       return () => {
         clearTimeout(timerId);
         SpeechRecognition.stopListening();
         console.log("Stopped speech recognition.");
       };
-      // --- End of The Fix ---
 
     } else {
-      // If audio is not enabled, make sure we are not listening.
       SpeechRecognition.stopListening();
     }
   }, [audioEnabled, languageCode, browserSupportsSpeechRecognition]);
