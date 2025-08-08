@@ -199,6 +199,104 @@
 // };
 
 
+// import axios from "axios";
+
+// type TranslationResult = {
+//   text: string;
+//   from: {
+//     language: {
+//       iso: string;
+//     };
+//   };
+//   raw: any;
+// };
+
+// type TranslationOptions = {
+//   from?: string;
+//   to: string;
+//   format?: string;
+//   model?: string;
+// };
+
+// /**
+//  * Translates text using the most reliable available public API.
+//  * This function prioritizes the public Google Translate endpoint for reliability.
+//  */
+// async function translateText(
+//   text: string,
+//   options: TranslationOptions
+// ): Promise<TranslationResult> {
+//   // Immediately return if there is no text to translate.
+//   if (!text || text.trim() === "") {
+//     return {
+//       text: "",
+//       from: { language: { iso: options.from || "auto" } },
+//       raw: {},
+//     };
+//   }
+
+//   try {
+//     console.log(`Using Google Translate API for: "${text}"`);
+    
+//     const googleUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${
+//       options.from || "auto"
+//     }&tl=${options.to}&dt=t&q=${encodeURIComponent(text)}`;
+
+//     const response = await axios.get(googleUrl, {
+//       timeout: 5000, // 5-second timeout
+//     });
+
+//     // The Google Translate API returns a nested array.
+//     if (response.data && response.data[0] && response.data[0][0]) {
+//       const translatedText = response.data[0][0][0];
+//       console.log("Google Translate successful.");
+//       return {
+//         text: translatedText,
+//         from: { language: { iso: options.from || "auto" } },
+//         raw: { translatedText },
+//       };
+//     } else {
+//       throw new Error("Invalid response format from Google Translate API");
+//     }
+//   } catch (error) {
+//     console.error("Translation error:", error);
+//     // Fallback to the original text to prevent the application from breaking.
+//     return {
+//       text: text,
+//       from: { language: { iso: options.from || "auto" } },
+//       raw: { error: error },
+//     };
+//   }
+// }
+
+// // Export the main translate function.
+// export const translate = translateText;
+
+// // The setCORS function will now also just use the main translate function.
+// export function setCORS() {
+//   return translateText;
+// }
+
+// // Language map remains the same.
+// export const languages = {
+//   auto: "Automatic",
+//   en: "English",
+//   kn: "Kannada",
+//   hi: "Hindi",
+//   fr: "French",
+//   de: "German",
+//   ja: "Japanese",
+//   es: "Spanish",
+//   ru: "Russian",
+//   ar: "Arabic",
+//   zh: "Chinese",
+//   pt: "Portuguese",
+//   te: "Telugu",
+//   ta: "Tamil",
+// };
+
+
+
 import axios from "axios";
 
 type TranslationResult = {
@@ -219,8 +317,8 @@ type TranslationOptions = {
 };
 
 /**
- * Translates text using the most reliable available public API.
- * This function prioritizes the public Google Translate endpoint for reliability.
+ * Translates text using the LibreTranslate API.
+ * This is a free and open-source solution that does not require an API key.
  */
 async function translateText(
   text: string,
@@ -236,30 +334,31 @@ async function translateText(
   }
 
   try {
-    console.log(`Using Google Translate API for: "${text}"`);
-    
-    const googleUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${
-      options.from || "auto"
-    }&tl=${options.to}&dt=t&q=${encodeURIComponent(text)}`;
+    const requestData = {
+      q: text,
+      source: options.from?.split('-')[0] || "auto",
+      target: options.to.split('-')[0],
+      format: "text",
+    };
 
-    const response = await axios.get(googleUrl, {
+    console.log("Translating with LibreTranslate:", requestData);
+
+    // Make the API call to a public LibreTranslate instance
+    const response = await axios.post("https://libretranslate.de/translate", requestData, {
+      headers: { "Content-Type": "application/json" },
       timeout: 5000, // 5-second timeout
     });
 
-    // The Google Translate API returns a nested array.
-    if (response.data && response.data[0] && response.data[0][0]) {
-      const translatedText = response.data[0][0][0];
-      console.log("Google Translate successful.");
-      return {
-        text: translatedText,
-        from: { language: { iso: options.from || "auto" } },
-        raw: { translatedText },
-      };
-    } else {
-      throw new Error("Invalid response format from Google Translate API");
-    }
+    const translatedText = response.data.translatedText || text;
+    console.log("LibreTranslate successful.");
+
+    return {
+      text: translatedText,
+      from: { language: { iso: options.from || "auto" } },
+      raw: response.data,
+    };
   } catch (error) {
-    console.error("Translation error:", error);
+    console.error("LibreTranslate error:", error);
     // Fallback to the original text to prevent the application from breaking.
     return {
       text: text,
