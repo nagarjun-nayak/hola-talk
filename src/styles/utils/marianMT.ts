@@ -297,6 +297,7 @@
 
 
 
+// src/styles/utils/marianMT.ts
 import axios from "axios";
 
 type TranslationResult = {
@@ -312,19 +313,16 @@ type TranslationResult = {
 type TranslationOptions = {
   from?: string;
   to: string;
-  format?: string;
-  model?: string;
 };
 
 /**
- * Translates text using the LibreTranslate API.
- * This is a free and open-source solution that does not require an API key.
+ * Translates text using the reliable public Google Translate endpoint.
+ * This is the best no-key, no-signup option for quality and reliability.
  */
 async function translateText(
   text: string,
   options: TranslationOptions
 ): Promise<TranslationResult> {
-  // Immediately return if there is no text to translate.
   if (!text || text.trim() === "") {
     return {
       text: "",
@@ -334,32 +332,31 @@ async function translateText(
   }
 
   try {
-    const requestData = {
-      q: text,
-      source: options.from?.split('-')[0] || "auto",
-      target: options.to.split('-')[0],
-      format: "text",
-    };
+    const sourceLang = options.from?.split('-')[0] || "auto";
+    const targetLang = options.to.split('-')[0];
 
-    console.log("Translating with LibreTranslate:", requestData);
+    console.log(`Translating with Google: "${text}" from ${sourceLang} to ${targetLang}`);
 
-    // Make the API call to a public LibreTranslate instance
-    const response = await axios.post("https://libretranslate.de/translate", requestData, {
-      headers: { "Content-Type": "application/json" },
+    const googleUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLang}&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`;
+
+    const response = await axios.get(googleUrl, {
       timeout: 5000, // 5-second timeout
     });
 
-    const translatedText = response.data.translatedText || text;
-    console.log("LibreTranslate successful.");
-
-    return {
-      text: translatedText,
-      from: { language: { iso: options.from || "auto" } },
-      raw: response.data,
-    };
+    if (response.data && response.data[0] && response.data[0][0]) {
+      const translatedText = response.data[0][0][0];
+      console.log("Google Translate successful.");
+      return {
+        text: translatedText,
+        from: { language: { iso: sourceLang } },
+        raw: { translatedText },
+      };
+    } else {
+      throw new Error("Invalid response format from Google Translate API");
+    }
   } catch (error) {
-    console.error("LibreTranslate error:", error);
-    // Fallback to the original text to prevent the application from breaking.
+    console.error("Google Translate error:", error);
+    // Fallback to the original text to prevent the app from breaking.
     return {
       text: text,
       from: { language: { iso: options.from || "auto" } },
@@ -368,15 +365,12 @@ async function translateText(
   }
 }
 
-// Export the main translate function.
 export const translate = translateText;
 
-// The setCORS function will now also just use the main translate function.
 export function setCORS() {
   return translateText;
 }
 
-// Language map remains the same.
 export const languages = {
   auto: "Automatic",
   en: "English",
