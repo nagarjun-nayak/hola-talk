@@ -31,15 +31,6 @@ body {
   @apply text-white;
 }
 
-/* This makes the main buttons have a dark background */
-.lk-join-button {
-  background: #27272a !important; /* zinc-800 */
-}
-
-.lk-join-button:hover {
-  background: #3f3f46 !important; /* zinc-700 */
-}
-
 .lk-video-conference {
   @apply bg-black;
 }
@@ -48,3 +39,25 @@ body {
 .lk-chat-form {
   @apply bg-black;
 }
+
+/* --- START OF RED BUTTON FIX --- */
+
+/* This targets the main button in the PreJoin component */
+.lk-prejoin .lk-button-primary {
+  background: #dc2626 !important; /* A strong red color */
+}
+
+.lk-prejoin .lk-button-primary:hover {
+  background: #b91c1c !important; /* A slightly darker red for hover */
+}
+
+/* This updates your custom button on the home page to also be red */
+.lk-join-button {
+  background: #dc2626 !important;
+}
+
+.lk-join-button:hover {
+  background: #b91c1c !important;
+}
+
+/* --- END OF RED BUTTON FIX --- */
