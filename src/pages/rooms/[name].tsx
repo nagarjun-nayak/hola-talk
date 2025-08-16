@@ -245,7 +245,7 @@
 
 import {
   LiveKitRoom, PreJoin, LocalUserChoices, VideoConference,
-  formatChatMessageLinks, useLocalParticipant
+  formatChatMessageLinks, useLocalParticipant , useConnectionState 
 } from "@livekit/components-react";
 import { LogLevel, RoomOptions, VideoPresets } from "livekit-client";
 import type { NextPage } from "next";
@@ -352,6 +352,9 @@ const ActiveRoom = ({ roomName, userChoices, onLeave, userId, selectedLanguage }
   const router = useRouter();
   const { hq } = router.query;
 
+  const { localParticipant } = useLocalParticipant();
+  const isMicrophoneEnabled = localParticipant.isMicrophoneEnabled;
+  
   const roomOptions = useMemo((): RoomOptions => ({
     videoCaptureDefaults: {
       deviceId: userChoices.videoDeviceId ?? undefined,
@@ -375,7 +378,7 @@ const ActiveRoom = ({ roomName, userChoices, onLeave, userId, selectedLanguage }
 
   useTranscribe({
     roomName,
-    audioEnabled: userChoices.audioEnabled,
+    audioEnabled: isMicrophoneEnabled,
     languageCode: selectedLanguage,
   });
 
@@ -469,13 +472,28 @@ const ActiveRoom = ({ roomName, userChoices, onLeave, userId, selectedLanguage }
   );
 };
 
+// function SetInitialMicrophoneState({ audioEnabled }: { audioEnabled: boolean }) {
+//   const { localParticipant } = useLocalParticipant();
+//   useEffect(() => {
+//     if (localParticipant && localParticipant.isMicrophoneEnabled !== audioEnabled) {
+//       localParticipant.setMicrophoneEnabled(audioEnabled);
+//     }
+//   }, [localParticipant, audioEnabled]);
+//   return null;
+// }
+
 function SetInitialMicrophoneState({ audioEnabled }: { audioEnabled: boolean }) {
   const { localParticipant } = useLocalParticipant();
+  const isMicrophoneEnabled = localParticipant.isMicrophoneEnabled; 
+  const connectionState = useConnectionState(); // <-- Get the connection state
+
   useEffect(() => {
-    if (localParticipant && localParticipant.isMicrophoneEnabled !== audioEnabled) {
+    // 👇 Only proceed if the participant exists AND the room is connected
+    if (localParticipant && connectionState === 'connected' && localParticipant.isMicrophoneEnabled !== audioEnabled) {
       localParticipant.setMicrophoneEnabled(audioEnabled);
     }
-  }, [localParticipant, audioEnabled]);
+  }, [localParticipant, audioEnabled, connectionState]); // <-- Add connectionState to dependencies
+
   return null;
 }
 
