@@ -29,8 +29,8 @@ const Features = () => {
           style={{ stroke: "url(#gradient)" }}
         />
       ),
-      title: "Meeting Minutes",
-      desc: "The app automatically generates a summary of the entire meeting or conference. This feature saves time and helps ensure that all participants are on the same page.",
+      title: "Meeting text Stack",
+      desc: "The app automatically stores the translated text from the opposite user so that it can be referenced later.",
     },
     {
       icon: (

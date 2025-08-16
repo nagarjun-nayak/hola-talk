@@ -28,16 +28,18 @@ body {
 }
 
 .gradient-text {
-  @apply bg-gradient-to-r from-primary via-secondary to-tertiary bg-clip-text text-transparent;
+  @apply text-white;
 }
 
+/* This makes the main buttons have a dark background */
 .lk-join-button {
-  background: #6366f1 !important;
+  background: #27272a !important; /* zinc-800 */
 }
 
 .lk-join-button:hover {
-  background: #4f46e5 !important;
+  background: #3f3f46 !important; /* zinc-700 */
 }
+
 .lk-video-conference {
   @apply bg-black;
 }

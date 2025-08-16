@@ -1,11 +1,18 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState , FormEvent } from "react";
 import { BsKeyboard } from "react-icons/bs";
 import CharacterAnimation from "../animation/character";
 
 const JoinRoom = () => {
   const [roomName, setRoomName] = useState<string>("");
   const router = useRouter();
+
+  const handleJoin = (e: FormEvent) => {
+    e.preventDefault(); // Prevent the page from reloading
+    if (roomName) {
+      router.push(`/rooms/${roomName}`);
+    }
+  };
   return (
     <div className="flex items-center space-x-4 p-2 text-white">
       <label className="relative">
@@ -13,7 +20,7 @@ const JoinRoom = () => {
           value={roomName}
           onChange={(e) => setRoomName(e.target.value)}
           type="text"
-          placeholder="Enter Room Name"
+          placeholder="Enter Room Number"
           className="rounded-md bg-white bg-opacity-30 p-2 text-white"
         />
         <BsKeyboard
