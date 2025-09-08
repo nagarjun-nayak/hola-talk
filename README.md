@@ -135,7 +135,6 @@ Optimized for **Vercel**:
 
 ---
 
-## 🤝 Contributors
 ## 👥 Contributors
 
 <table>
