@@ -135,14 +135,57 @@ Optimized for **Vercel**:
 
 ---
 
-## 🤝 Contributing
-Contributions are welcome!  
+## 🤝 Contributors
+## 👥 Contributors
 
-1. Fork the project  
-2. Create your branch: `git checkout -b feature/AmazingFeature`  
-3. Commit your changes: `git commit -m 'Add some AmazingFeature'`  
-4. Push to branch: `git push origin feature/AmazingFeature`  
-5. Open a Pull Request  
+<table>
+  <tr>
+    <td align="center" style="padding: 20px;">
+      <a href="https://github.com/nagarjun-nayak">
+        <img src="https://github.com/nagarjun-nayak.png?size=120" width="120px;" style="border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.2);" alt="Aprameya P"/>
+        <br /><br />
+        <sub><b>Nagarjun Nayak</b></sub>
+      </a>
+      <br />
+      <a href="https://github.com/nagarjun-nayak">
+        <img src="https://img.shields.io/badge/GitHub-Follow-black?logo=github&style=flat-square"/>
+      </a>
+    </td>
+    <td align="center" style="padding: 20px;">
+      <a href="https://github.com/Kaushal-C">
+        <img src="https://github.com/Kaushal-C.png?size=120" width="120px;" style="border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.2);" alt="Member 3"/>
+        <br /><br />
+        <sub><b>Kaushal-C</b></sub>
+      </a>
+      <br />
+      <a href="https://github.com/Kaushal-C">
+        <img src="https://img.shields.io/badge/GitHub-Follow-black?logo=github&style=flat-square"/>
+      </a>
+    </td>
+    <td align="center" style="padding: 20px;">
+      <a href="https://github.com/7-karthikR">
+        <img src="https://github.com/7-karthikR.png?size=120" width="120px;" style="border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.2);" alt="Member 4"/>
+        <br /><br />
+        <sub><b>7-karthikR</b></sub>
+      </a>
+      <br />
+      <a href="https://github.com/7-karthikR">
+        <img src="https://img.shields.io/badge/GitHub-Follow-black?logo=github&style=flat-square"/>
+      </a>
+    </td>
+    <td align="center" style="padding: 20px;">
+      <a href="https://github.com/Aprxmeya">
+        <img src="https://github.com/Aprxmeya.png?size=120" width="120px;" style="border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.2);" alt="Gagan K"/>
+        <br /><br />
+        <sub><b>Aprameya P</b></sub>
+      </a>
+      <br />
+      <a href="https://github.com/Aprxmeya">
+        <img src="https://img.shields.io/badge/GitHub-Follow-black?logo=github&style=flat-square"/>
+      </a>
+    </td>
+  </tr>
+</table>
 
 ---
 
